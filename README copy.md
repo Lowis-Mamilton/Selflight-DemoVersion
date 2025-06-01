@@ -1,1 +1,0 @@
-<img src="img/Selflight-icon.png" width=100%>
