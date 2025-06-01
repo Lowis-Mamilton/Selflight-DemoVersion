@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Selflight GCS - Detect the Future.">
+    <title>Selflight_GPT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/quad-icon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="script.js" defer></script> </head>
+<body>
+    <div class="statebar">
+        <img src="img/person.png" alt="User Icon">
+        <span class="username" id="userNameDisplay" contenteditable="true">User Name</span>
+        <div class="portsetting">
+            <select id="baudRateSelect">
+                <option value="auto">Auto</option>
+                <option value="9600">9600</option>
+                <option value="57600">57600</option>
+                <option value="115200">115200</option>
+            </select>
+        </div>
+        <button class="connectbutton" id="connectButton"><img src="img/no-Connect.png" alt="Connect Button"></button>
+    </div>
+
+    <div class="main-content-wrapper">
+        <div class="missionlist-container">
+            <h2>Missions</h2>
+            <div class="missionline"></div>
+            <ul class="missions" id="missionList"> </ul>
+            <button class="addbutton" id="addMissionButton"> <img src="img/Add.png" alt="Add Button"></button>
+        </div>
+
+        <div class="status-right-section">
+            <h1>Drone Status</h1>
+            <div class="statusbar">
+                <div class="IMU-display">
+                    <img src="img/IMU_Data.png" alt="IMU Indicator" class="IMU-img">
+                    <div class="IMU-text">
+                        <p>Pitch: <span>2.51</span></p>
+                        <p>Roll: <span>1.23</span></p>
+                        <p>Yaw: <span>86.41</span></p>
+                    </div>
+                </div>
+                <div class="GPS-display">
+                    <img src="img/GPS_Data.png" alt="GPS Indicator" class="GPS-img">
+                    <div class="GPS-text">
+                    <p>Compass: <span>51.1</span></p>
+                    <p>GPS: <span>22.64478, 120.32810</span></p>
+                    </div>
+                </div>
+            </div>
+            <a href="你的GitHub連結" target="_blank" class="icon-link-wrapper">
+                <img src="img/ICON.png" class="icon-link" alt="Selflight Icon">
+            </a>
+        </div>
+    </div>
+</body>
+</html>

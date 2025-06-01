@@ -1,0 +1,302 @@
+* {
+    font-family: "Rethink Sans", sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #191919; /* 這個顏色現在會被地圖覆蓋 */
+    margin: 0;
+    padding: 0; /* 移除 body 的 padding，讓地圖可以佔滿 */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    position: relative; /* 設置 body 為相對定位，方便子元素的絕對定位 */
+}
+
+/* 地圖容器樣式 */
+#mapid {
+    position: absolute; /* 絕對定位 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 佔滿整個視窗寬度 */
+    height: 100%; /* 佔滿整個視窗高度 */
+    z-index: 0; /* 設置較低的 z-index，讓其他元素疊加在上方 */
+}
+
+/* 調整主要內容和狀態列的 z-index */
+.statebar,
+.main-content-wrapper {
+    position: relative; /* 設置為相對定位，使其能疊加在地圖之上 */
+    z-index: 1; /* 設置較高的 z-index */
+    /* statebar 和 main-content-wrapper 的 padding 應該獨立設置，以避免重疊 */
+}
+
+.statebar {
+    height: 90px;
+    background: linear-gradient(to right, #1d305f, #5365B1);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin: 10px; /* 給 statebar 留出邊距 */
+    /* background-color: rgba(29, 48, 95, 0.9); /* 如果需要半透明效果 */
+}
+
+.homebutton {
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.homebutton img {
+    width: 40px; /* 調整為你希望的大小 */
+    height: 40px;
+    object-fit: contain;
+}
+
+.homebutton:hover {
+    background-color: #5365B1;
+}
+
+.mission-name-title { /* 修改 class name 為 mission-name-title 以匹配 HTML */
+    color: white;
+    font-size: 28px;
+    margin: 0 auto; /* Center the title */
+    position: absolute; /* 使標題居中，不影響左右按鈕 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.top-buttons {
+    margin-left: auto; /* 將按鈕推到右邊 */
+    display: flex;
+    gap: 10px;
+}
+
+.start-button,
+.stop-button { /* 合併 start 和 stop button 的通用樣式 */
+    font-size: 20px;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px; /* 增加左右 padding */
+    border: 5px solid transparent; /* 保持透明邊框 */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.start-button {
+    background-color: #00ff00;
+}
+
+.start-button:hover {
+    background-color: #4cc844;
+}
+
+.stop-button {
+    background-color: #ff0000;
+    margin-left: 10px; /* 保持與 start button 的間距 */
+}
+
+.stop-button:hover {
+    background-color: #cc0001;
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    padding: 0 10px 10px 10px; /* 調整為上下左右的 padding */
+}
+
+.mission-settings-container {
+    width: 450px; /* Adjust width as needed, 450px from previous example */
+    flex-shrink: 0;
+    background-color: #2C2C2C; /* 確保這個容器有不透明的背景色 */
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* 確保子元素的 absolute 定位是相對於它 */
+    /* 保持高度自適應，讓內容撐開 */
+    padding-bottom: 90px; /* 增加底部內邊距，為 save/delete 按鈕留出空間 */
+}
+
+.setting-group {
+    margin-bottom: 20px; /* 增加組間距 */
+}
+
+.setting-label {
+    color: white;
+    font-size: 20px; /* 調整字體大小 */
+    margin-bottom: 8px; /* 調整標籤與輸入框的間距 */
+}
+
+.input-with-icon,
+.select-with-icon,
+.textarea-with-icon {
+    display: flex;
+    align-items: center;
+    background-color: #444;
+    border-radius: 8px;
+    padding: 8px 12px;
+    position: relative;
+    /* cursor: pointer; /* 讓整個區域看起來可點擊 - 這個對於 input 和 select 可能不太合適，已移除 */
+}
+
+.input-with-icon input[type="text"],
+.textarea-with-icon textarea {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    /* padding-right: 30px; /* Space for the icon - 這個會在 file-import-wrapper 中處理 */
+    outline: none;
+    /* cursor: pointer; /* 確保輸入框在只讀模式下也顯示可點擊游標 - 已移除，由 file-select-button 處理點擊 */
+}
+
+.select-with-icon select {
+    flex-grow: 1;
+    background: none; /* 移除瀏覽器預設背景 */
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding-right: 30px;
+    outline: none;
+    -webkit-appearance: none; /* 移除 Chrome/Safari 預設樣式 */
+    -moz-appearance: none;    /* 移除 Firefox 預設樣式 */
+    appearance: none;         /* 移除其他瀏覽器預設樣式 */
+    border-radius: 5px; /* 保持圓角，如果 select-with-icon 有圓角 */
+    cursor: pointer; /* select 元素保持可點擊游標 */
+}
+
+.select-with-icon select option {
+    color: black;
+    background-color: white; /* 確保選項的背景也是白色 */
+}
+
+/* 檔案導入相關樣式 */
+.file-import-wrapper {
+    display: flex; /* 使用 flex 佈局 */
+    align-items: center;
+    gap: 10px; /* input 和 button 之間的間距 */
+    background-color: #444; /* 保持與其他 input 相同的背景色 */
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.file-import-wrapper input[type="text"] {
+    flex-grow: 1; /* 讓輸入框佔用剩餘空間 */
+    /* 確保這個 input 的樣式與其他輸入框一致 */
+    background: none; /* 移除背景 */
+    border: none; /* 移除邊框 */
+    color: white;
+    padding: 0; /* 移除額外 padding */
+    font-size: 16px;
+    height: auto; /* 自動調整高度 */
+    cursor: default; /* 變成預設游標，因為點擊行為在按鈕上 */
+}
+
+.file-import-wrapper input[type="file"] {
+    /* 隱藏實際的檔案輸入框 */
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-select-button {
+    background-color: #007bff; /* 藍色按鈕 */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    height: auto; /* 自適應高度 */
+    flex-shrink: 0; /* 防止按鈕被壓縮 */
+}
+
+.file-select-button:hover {
+    background-color: #0056b3;
+}
+
+/* 舊的 icon 樣式，可能不再需要，但保留以防萬一 */
+.input-with-icon img {
+    position: absolute;
+    right: 12px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    filter: invert(70%); /* 保持圖示在深色背景上的可見性 */
+}
+
+.textarea-with-icon {
+    min-height: 100px;
+    align-items: flex-start;
+    padding: 8px 12px; /* 確保 padding 一致 */
+}
+
+.textarea-with-icon textarea {
+    resize: vertical;
+    min-height: 80px;
+    padding-right: 30px;
+    padding-top: 5px;
+    width: 100%; /* 確保 textarea 佔滿父容器寬度 */
+}
+
+.textarea-with-icon img {
+    top: 8px;
+}
+
+.date {
+    color: #b0b0b0;
+    font-size: 14px;
+    margin-top: auto; /* Push date to bottom */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* SAVE 和 DELETE 按鈕樣式 */
+.save-button, .delete-button {
+    position: absolute; /* 相對於 mission-settings-container 定位 */
+    bottom: 20px;
+    width: calc(50% - 30px); /* 考慮到左右邊距和中間間距 */
+    height: 50px;
+    font-size: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold; /* 保持粗體 */
+    color: white; /* 保持白色文字 */
+    border: none; /* 移除邊框 */
+}
+
+.save-button {
+    left: 20px;
+    background-color: #4CAF50; /* 綠色 */
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.delete-button {
+    right: 20px;
+    background-color: #dc3545; /* 紅色 */
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
